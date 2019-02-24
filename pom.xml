@@ -37,7 +37,7 @@
                     <assembleDirectory>target</assembleDirectory>
                     <programs>
                         <program>
-                            <mainClass>JamiumBot</mainClass>
+                            <mainClass>Main</mainClass>
                             <name>workerBot</name>
                         </program>
                     </programs>
