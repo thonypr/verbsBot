@@ -1,6 +1,7 @@
 import org.telegram.telegrambots.ApiContextInitializer;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+import org.telegram.telegrambots.meta.generics.LongPollingBot;
 
 public class Main {
 
@@ -14,8 +15,8 @@ public class Main {
 
         // TODO Register our bot
         try {
-            botsApi.registerBot(new JamiumBot());
-//            botsApi.registerBot((LongPollingBot) new JamiumBot());
+//            botsApi.registerBot(new JamiumBot());
+            botsApi.registerBot((LongPollingBot) new JamiumBot());
         } catch (TelegramApiException e) {
             e.printStackTrace();
         }
