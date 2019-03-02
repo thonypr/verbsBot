@@ -1,4 +1,5 @@
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
+import org.telegram.telegrambots.meta.api.methods.AnswerCallbackQuery;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
@@ -80,21 +81,20 @@ public class JamiumBot extends TelegramLongPollingBot {
             String call_data = update.getCallbackQuery().getData();
             long message_id = update.getCallbackQuery().getMessage().getMessageId();
             long chat_id = update.getCallbackQuery().getMessage().getChatId();
-            SendMessage new_message = new SendMessage();
+            AnswerCallbackQuery new_message = new AnswerCallbackQuery();
             if (call_data.equals("t_1")) {
                 //process user
                 UsersController.updateUserState(chat_id, State.VIEW_TASK_1);
                 String answer = "I'm task 1 " + chat_id;
-                new_message = new SendMessage()
-                        .setChatId(chat_id)
+                new_message = new AnswerCallbackQuery()
 //                        .setMessageId(Integer.valueOf(String.valueOf(message_id)))
                         .setText(answer);
             }
             else if (call_data.equals("t_2")) {
                 UsersController.updateUserState(chat_id, State.VIEW_TASK_2);
                 String answer = "And I'm task 2! " + chat_id;
-                new_message = new SendMessage()
-                        .setChatId(chat_id)
+                new_message = new AnswerCallbackQuery()
+//                        .setChatId(chat_id)
 //                        .setMessageId(Integer.valueOf(String.valueOf(message_id)))
                         .setText(answer);
             }
