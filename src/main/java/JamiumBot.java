@@ -29,6 +29,7 @@ public class JamiumBot extends TelegramLongPollingBot {
             List<List<InlineKeyboardButton>> rowsInline = new ArrayList<>();
             List<InlineKeyboardButton> rowInline = new ArrayList<>();
             InlineKeyboardButton button = new InlineKeyboardButton("Hey! I'm inline button!");
+            button.setCallbackData("callback_data");
             rowInline.add(button);
             rowsInline.add(rowInline);
             List<List<InlineKeyboardButton>> buttons = new ArrayList<List<InlineKeyboardButton>>();
