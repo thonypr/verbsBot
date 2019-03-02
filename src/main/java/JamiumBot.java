@@ -2,46 +2,15 @@ import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.AnswerCallbackQuery;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardButton;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 public class JamiumBot extends TelegramLongPollingBot {
 
-    public synchronized void setButtons(SendMessage sendMessage) {
-        // Создаем клавиуатуру
-        ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
-        sendMessage.setReplyMarkup(replyKeyboardMarkup);
-        replyKeyboardMarkup.setSelective(true);
-        replyKeyboardMarkup.setResizeKeyboard(true);
-        replyKeyboardMarkup.setOneTimeKeyboard(false);
 
-        // Создаем список строк клавиатуры
-        List<KeyboardRow> keyboard = new ArrayList<>();
-
-        // Первая строчка клавиатуры
-        KeyboardRow keyboardFirstRow = new KeyboardRow();
-        // Добавляем кнопки в первую строчку клавиатуры
-        keyboardFirstRow.add(new KeyboardButton("hi, im a keyboard!"));
-
-        // Вторая строчка клавиатуры
-        KeyboardRow keyboardSecondRow = new KeyboardRow();
-        // Добавляем кнопки во вторую строчку клавиатуры
-        keyboardSecondRow.add(new KeyboardButton("me too, but im second"));
-
-        // Добавляем все строчки клавиатуры в список
-        keyboard.add(keyboardFirstRow);
-        keyboard.add(keyboardSecondRow);
-        // и устанваливаем этот список нашей клавиатуре
-        replyKeyboardMarkup.setKeyboard(keyboard);
-    }
 
     public static void log(String user_id, String txt, String bot_answer) {
         System.out.println("\n ----------------------------");
@@ -68,7 +37,7 @@ public class JamiumBot extends TelegramLongPollingBot {
                 String userName = update.getMessage().getFrom().getFirstName();
                 message.setText(Responses.WELCOME.replace("X", userName));
                 message.setReplyMarkup(InlineKeyboardResponses.getTasksKeyboard());
-//                setButtons(message);
+//                Keyboards.setWelcomeButtons(message);
                 try {
                     execute(message); // Sending our message object to user
                 } catch (TelegramApiException e) {
@@ -81,30 +50,54 @@ public class JamiumBot extends TelegramLongPollingBot {
             String call_data = update.getCallbackQuery().getData();
             long message_id = update.getCallbackQuery().getMessage().getMessageId();
             long chat_id = update.getCallbackQuery().getMessage().getChatId();
-            AnswerCallbackQuery new_message = new AnswerCallbackQuery();
             if (call_data.equals("t_1")) {
                 //process user
                 UsersController.updateUserState(chat_id, State.VIEW_TASK_1);
                 String answer = "I'm task 1 " + chat_id;
-                new_message = new AnswerCallbackQuery()
-                        .setCallbackQueryId(update.getCallbackQuery().getId())
+                AnswerCallbackQuery callBack = new AnswerCallbackQuery()
+                        .setCallbackQueryId(update.getCallbackQuery().getId());
 //                        .setMessageId(Integer.valueOf(String.valueOf(message_id)))
-                        .setText(answer);
+//                        .setText(answer);
+                try {
+                    execute(callBack);
+                } catch (TelegramApiException e) {
+                    e.printStackTrace();
+                }
+                //and show Task 1
+                SendMessage message = new SendMessage()
+                        .setReplyMarkup(InlineKeyboardResponses.getAttemptKeyboard(1))
+                        .setChatId(chat_id)
+                        .setText("Hi, Im task #1 in text");
+                try {
+                    execute(message);
+                } catch (TelegramApiException e) {
+                    e.printStackTrace();
+                }
             }
             else if (call_data.equals("t_2")) {
                 UsersController.updateUserState(chat_id, State.VIEW_TASK_2);
                 String answer = "And I'm task 2! " + chat_id;
-                new_message = new AnswerCallbackQuery()
-                        .setCallbackQueryId(update.getCallbackQuery().getId())
+                AnswerCallbackQuery callBack = new AnswerCallbackQuery()
+                        .setCallbackQueryId(update.getCallbackQuery().getId());
 //                        .setChatId(chat_id)
 //                        .setMessageId(Integer.valueOf(String.valueOf(message_id)))
-                        .setText(answer);
-            }
+//                        .setText(answer);
                 try {
-                    execute(new_message);
+                    execute(callBack);
                 } catch (TelegramApiException e) {
                     e.printStackTrace();
                 }
+                //and show Task 2
+                SendMessage message = new SendMessage()
+                        .setChatId(chat_id)
+                        .setText("Hi, Im task #1 in text");
+                try {
+                    execute(message);
+                } catch (TelegramApiException e) {
+                    e.printStackTrace();
+                }
+            }
+
             }
         }
 

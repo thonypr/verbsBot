@@ -22,4 +22,11 @@ public class InlineKeyboardResponses {
         InlineKeyboardMarkup setOfOptions = createSetOfOptions(InlineResponses.getTasksInlineButtons());
         return setOfOptions;
     }
+
+    public static InlineKeyboardMarkup getAttemptKeyboard(int taskId) {
+        switch (taskId) {
+            case 1: return createSetOfOptions(InlineResponses.getAttempt1InlineButton());
+            default: return null;
+        }
+    }
 }
