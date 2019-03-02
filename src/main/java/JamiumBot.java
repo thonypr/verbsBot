@@ -47,7 +47,7 @@ public class JamiumBot extends TelegramLongPollingBot {
             else if (UsersController.hasUser(chat_id)) {
                 // check current state of user
                 //response should be 2
-                if (UsersController.getUser(chat_id).getUserState() == State.ATTEMPT_TASK_1) {
+                if (UsersController.getUser(chat_id).getUserState() == State.VIEW_TASK_1) {
                     //TODO: check method
                     String response = message_text.equals("2") ? "great!" : "nope :(";
                     //show welcome screen
