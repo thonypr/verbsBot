@@ -25,14 +25,17 @@ public class JamiumBot extends TelegramLongPollingBot {
             SendMessage message = new SendMessage();
             message.setChatId(chat_id);
             message.setText(message_text);
-            InlineKeyboardMarkup options = new InlineKeyboardMarkup();
+            InlineKeyboardMarkup markupInline = new InlineKeyboardMarkup();
+            List<List<InlineKeyboardButton>> rowsInline = new ArrayList<>();
+            List<InlineKeyboardButton> rowInline = new ArrayList<>();
             InlineKeyboardButton button = new InlineKeyboardButton("Hey! I'm inline button!");
-            List<InlineKeyboardButton> b1 = new ArrayList<InlineKeyboardButton>();
-            b1.add(button);
+            rowInline.add(button);
+            rowsInline.add(rowInline);
             List<List<InlineKeyboardButton>> buttons = new ArrayList<List<InlineKeyboardButton>>();
-            buttons.add(b1);
-            options.setKeyboard(buttons);
-            message.setReplyMarkup(options);
+            // Add it to the message
+            markupInline.setKeyboard(rowsInline);
+            message.setReplyMarkup(markupInline);
+//            rowInline.add(new InlineKeyboardButton().setText("Update message text").setCallbackData("update_msg_text"));
 
             try {
                 execute(message); // Sending our message object to user
