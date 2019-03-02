@@ -1,14 +1,12 @@
-import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class WelcomeResponse implements BaseResponse {
+public class InlineKeyboardResponses {
 
-    @Override
-    public InlineKeyboardMarkup createSetOfOptions(List<InlineKeyboardButton> options) {
+    public static InlineKeyboardMarkup createSetOfOptions(List<InlineKeyboardButton> options) {
         InlineKeyboardMarkup markupInline = new InlineKeyboardMarkup();
         List<List<InlineKeyboardButton>> rowsInline = new ArrayList<>();
         List<InlineKeyboardButton> rowInline = new ArrayList<>();
@@ -20,9 +18,8 @@ public class WelcomeResponse implements BaseResponse {
         return markupInline;
     }
 
-    public SendMessage addWelcomeMessage(SendMessage message) {
-        InlineKeyboardMarkup setOfOptions = createSetOfOptions(Respond.getWelcomeResponse());
-        message.setReplyMarkup(setOfOptions);
-        return message;
+    public static InlineKeyboardMarkup getTasksKeyboard() {
+        InlineKeyboardMarkup setOfOptions = createSetOfOptions(InlineResponses.getTasksInlineButtons());
+        return setOfOptions;
     }
 }
