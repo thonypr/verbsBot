@@ -2,12 +2,7 @@ import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
 import org.telegram.telegrambots.meta.api.objects.Update;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class JamiumBot extends TelegramLongPollingBot {
 
@@ -19,24 +14,22 @@ public class JamiumBot extends TelegramLongPollingBot {
             String message_text = update.getMessage().getText();
             long chat_id = update.getMessage().getChatId();
 
-            //SendMessage message = new SendMessage() // Create a message object object
-            //        .setChatId(chat_id)
-            //        .setText(message_text);
-
             SendMessage message = new SendMessage();
             message.setChatId(chat_id);
             message.setText(message_text);
-            InlineKeyboardMarkup markupInline = new InlineKeyboardMarkup();
-            List<List<InlineKeyboardButton>> rowsInline = new ArrayList<>();
-            List<InlineKeyboardButton> rowInline = new ArrayList<>();
-            InlineKeyboardButton button = new InlineKeyboardButton("Hey! I'm inline button!");
-            button.setCallbackData("callback_data");
-            rowInline.add(button);
-            rowsInline.add(rowInline);
-            List<List<InlineKeyboardButton>> buttons = new ArrayList<List<InlineKeyboardButton>>();
-            // Add it to the message
-            markupInline.setKeyboard(rowsInline);
-            message.setReplyMarkup(markupInline);
+            WelcomeResponse welcome = new WelcomeResponse();
+            message = welcome.addWelcomeMessage(message);
+//            InlineKeyboardMarkup markupInline = new InlineKeyboardMarkup();
+//            List<List<InlineKeyboardButton>> rowsInline = new ArrayList<>();
+//            List<InlineKeyboardButton> rowInline = new ArrayList<>();
+//            InlineKeyboardButton button = new InlineKeyboardButton("Hey! I'm inline button!");
+//            button.setCallbackData("callback_data");
+//            rowInline.add(button);
+//            rowsInline.add(rowInline);
+//            List<List<InlineKeyboardButton>> buttons = new ArrayList<List<InlineKeyboardButton>>();
+//            // Add it to the message
+//            markupInline.setKeyboard(rowsInline);
+//            message.setReplyMarkup(markupInline);
 //            rowInline.add(new InlineKeyboardButton().setText("Update message text").setCallbackData("update_msg_text"));
 
             try {
