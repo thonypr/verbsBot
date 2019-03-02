@@ -14,31 +14,22 @@ public class JamiumBot extends TelegramLongPollingBot {
             String message_text = update.getMessage().getText();
             long chat_id = update.getMessage().getChatId();
 
-            SendMessage message = new SendMessage();
-            message.setChatId(chat_id);
-            message.setText(message_text);
-            WelcomeResponse welcome = new WelcomeResponse();
-            message = welcome.addWelcomeMessage(message);
-//            InlineKeyboardMarkup markupInline = new InlineKeyboardMarkup();
-//            List<List<InlineKeyboardButton>> rowsInline = new ArrayList<>();
-//            List<InlineKeyboardButton> rowInline = new ArrayList<>();
-//            InlineKeyboardButton button = new InlineKeyboardButton("Hey! I'm inline button!");
-//            button.setCallbackData("callback_data");
-//            rowInline.add(button);
-//            rowsInline.add(rowInline);
-//            List<List<InlineKeyboardButton>> buttons = new ArrayList<List<InlineKeyboardButton>>();
-//            // Add it to the message
-//            markupInline.setKeyboard(rowsInline);
-//            message.setReplyMarkup(markupInline);
-//            rowInline.add(new InlineKeyboardButton().setText("Update message text").setCallbackData("update_msg_text"));
+            if (message_text.equals("/start")) {
+                //show welcome screen
+                SendMessage message = new SendMessage();
+                message.setChatId(chat_id);
+                String userName = update.getMessage().getFrom().getUserName();
+                message.setText(Responses.WELCOME.replace("X", userName));
 
-            try {
-                execute(message); // Sending our message object to user
-            } catch (TelegramApiException e) {
-                e.printStackTrace();
+                try {
+                    execute(message); // Sending our message object to user
+                } catch (TelegramApiException e) {
+                    e.printStackTrace();
+                }
             }
-        }
-        else if (update.hasCallbackQuery()) {
+
+
+        } else if (update.hasCallbackQuery()) {
             // Set variables
             String call_data = update.getCallbackQuery().getData();
             long message_id = update.getCallbackQuery().getMessage().getMessageId();
