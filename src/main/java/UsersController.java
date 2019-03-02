@@ -32,6 +32,7 @@ public class UsersController {
         if(users.containsKey(userId)) {
             User newUser = new User(userId, state);
             users.replace(userId, newUser);
+            JamiumBot.log(userId.toString(), "Changed state to " + state, "");
         }
         else
         {
