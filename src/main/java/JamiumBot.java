@@ -87,6 +87,7 @@ public class JamiumBot extends TelegramLongPollingBot {
                 UsersController.updateUserState(chat_id, State.VIEW_TASK_1);
                 String answer = "I'm task 1 " + chat_id;
                 new_message = new AnswerCallbackQuery()
+                        .setCallbackQueryId(update.getCallbackQuery().getId())
 //                        .setMessageId(Integer.valueOf(String.valueOf(message_id)))
                         .setText(answer);
             }
@@ -94,6 +95,7 @@ public class JamiumBot extends TelegramLongPollingBot {
                 UsersController.updateUserState(chat_id, State.VIEW_TASK_2);
                 String answer = "And I'm task 2! " + chat_id;
                 new_message = new AnswerCallbackQuery()
+                        .setCallbackQueryId(update.getCallbackQuery().getId())
 //                        .setChatId(chat_id)
 //                        .setMessageId(Integer.valueOf(String.valueOf(message_id)))
                         .setText(answer);
