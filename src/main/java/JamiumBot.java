@@ -68,7 +68,7 @@ public class JamiumBot extends TelegramLongPollingBot {
                 String userName = update.getMessage().getFrom().getFirstName();
                 message.setText(Responses.WELCOME.replace("X", userName));
                 message.setReplyMarkup(InlineKeyboardResponses.getTasksKeyboard());
-                setButtons(message);
+//                setButtons(message);
                 try {
                     execute(message); // Sending our message object to user
                 } catch (TelegramApiException e) {
