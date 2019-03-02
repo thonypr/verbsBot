@@ -31,7 +31,7 @@ public class JamiumBot extends TelegramLongPollingBot {
                 //show welcome screen
                 SendMessage message = new SendMessage();
                 message.setChatId(chat_id);
-                String userName = update.getMessage().getFrom().getUserName();
+                String userName = update.getMessage().getFrom().getFirstName();
                 message.setText(Responses.WELCOME.replace("X", userName));
                 message.setReplyMarkup(InlineKeyboardResponses.getTasksKeyboard());
                 try {
