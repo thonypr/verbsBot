@@ -44,6 +44,24 @@ public class JamiumBot extends TelegramLongPollingBot {
                     e.printStackTrace();
                 }
             }
+            else if (UsersController.hasUser(chat_id)) {
+                // check current state of user
+                //response should be 2
+                if (UsersController.getUser(chat_id).getUserState() == State.ATTEMPT_TASK_1) {
+                    //TODO: check method
+                    String response = message_text.equals("2") ? "great!" : "nope :(";
+                    //show welcome screen
+                    SendMessage message = new SendMessage();
+                    message.setChatId(chat_id);
+                    message.setText(response);
+//                    message.setReplyMarkup(InlineKeyboardResponses.getTasksKeyboard());
+                    try {
+                        execute(message); // Sending our message object to user
+                    } catch (TelegramApiException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
 
         } else if (update.hasCallbackQuery()) {
             // Set variables

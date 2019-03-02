@@ -10,4 +10,8 @@ public class User {
         this.state = state;
         this.userId = userId;
     }
+
+    public State getUserState() {
+        return state;
+    }
 }

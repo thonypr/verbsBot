@@ -7,8 +7,20 @@ public class UsersController {
     private static HashMap<Long, User> users = new HashMap<>();
     private static List<Long> usersIds = new ArrayList<>();
 
-    private boolean hasUser(User user) {
+    public static boolean hasUser(User user) {
         return usersIds.contains(user.getUserId());
+    }
+
+    public static User getUser(Long userId) {
+        if(usersIds.contains(userId)) {
+            return users.get(userId);
+        }
+        //TODO: npe
+        return null;
+    }
+
+    public static boolean hasUser(Long userId) {
+        return usersIds.contains(userId);
     }
 
     public static void addUser(Long userId) {
