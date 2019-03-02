@@ -1,6 +1,5 @@
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
-import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
@@ -33,19 +32,19 @@ public class JamiumBot extends TelegramLongPollingBot {
             String call_data = update.getCallbackQuery().getData();
             long message_id = update.getCallbackQuery().getMessage().getMessageId();
             long chat_id = update.getCallbackQuery().getMessage().getChatId();
-            EditMessageText new_message = new EditMessageText();
+            SendMessage new_message = new SendMessage();
             if (call_data.equals("t_1")) {
                 String answer = "I'm task 1 " + chat_id;
-                new_message = new EditMessageText()
+                new_message = new SendMessage()
                         .setChatId(chat_id)
-                        .setMessageId(Integer.valueOf(String.valueOf(message_id)))
+//                        .setMessageId(Integer.valueOf(String.valueOf(message_id)))
                         .setText(answer);
             }
             else if (call_data.equals("t_2")) {
                 String answer = "And I'm task 2! " + chat_id;
-                new_message = new EditMessageText()
+                new_message = new SendMessage()
                         .setChatId(chat_id)
-                        .setMessageId(Integer.valueOf(String.valueOf(message_id)))
+//                        .setMessageId(Integer.valueOf(String.valueOf(message_id)))
                         .setText(answer);
             }
                 try {
