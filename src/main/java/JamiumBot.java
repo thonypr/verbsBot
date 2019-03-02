@@ -21,9 +21,6 @@ public class JamiumBot extends TelegramLongPollingBot {
                 String userName = update.getMessage().getFrom().getUserName();
                 message.setText(Responses.WELCOME.replace("X", userName));
                 message.setReplyMarkup(InlineKeyboardResponses.getTasksKeyboard());
-                //add inline buttons for tasks
-
-
                 try {
                     execute(message); // Sending our message object to user
                 } catch (TelegramApiException e) {
@@ -31,19 +28,26 @@ public class JamiumBot extends TelegramLongPollingBot {
                 }
             }
 
-
         } else if (update.hasCallbackQuery()) {
             // Set variables
             String call_data = update.getCallbackQuery().getData();
             long message_id = update.getCallbackQuery().getMessage().getMessageId();
             long chat_id = update.getCallbackQuery().getMessage().getChatId();
-
-            if (call_data.equals("callback_data")) {
-                String answer = "Updated message text " + chat_id;
-                EditMessageText new_message = new EditMessageText()
+            EditMessageText new_message = new EditMessageText();
+            if (call_data.equals("t_1")) {
+                String answer = "I'm task 1 " + chat_id;
+                new_message = new EditMessageText()
                         .setChatId(chat_id)
                         .setMessageId(Integer.valueOf(String.valueOf(message_id)))
                         .setText(answer);
+            }
+            else if (call_data.equals("t_2")) {
+                String answer = "And I'm task 2! " + chat_id;
+                new_message = new EditMessageText()
+                        .setChatId(chat_id)
+                        .setMessageId(Integer.valueOf(String.valueOf(message_id)))
+                        .setText(answer);
+            }
                 try {
                     execute(new_message);
                 } catch (TelegramApiException e) {
@@ -51,8 +55,6 @@ public class JamiumBot extends TelegramLongPollingBot {
                 }
             }
         }
-
-    }
 
     public String getBotUsername() {
         return "testForQuizBot";
