@@ -11,7 +11,6 @@ import java.util.Date;
 public class JamiumBot extends TelegramLongPollingBot {
 
 
-
     public static void log(String user_id, String txt, String bot_answer) {
         System.out.println("\n ----------------------------");
         DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
@@ -43,18 +42,24 @@ public class JamiumBot extends TelegramLongPollingBot {
                 } catch (TelegramApiException e) {
                     e.printStackTrace();
                 }
-            }
-            else if (UsersController.hasUser(chat_id)) {
+            } else if (UsersController.hasUser(chat_id)) {
                 // check current state of user
                 //response should be 2
                 if (UsersController.getUser(chat_id).getUserState() == State.VIEW_TASK_1) {
                     //TODO: check method
-                    String response = message_text.equals("2") ? "great!" : "nope :(";
+                    String response = "";
                     //show welcome screen
                     SendMessage message = new SendMessage();
+                    if (message_text.equals("2")) {
+                        response = "great";
+                        UsersController.updateUserState(chat_id, State.SOLVED_TASK_1);
+                        message.setReplyMarkup(InlineKeyboardResponses.getTasksKeyboard());
+                    } else {
+                        response = "nope :(";
+                    }
                     message.setChatId(chat_id);
                     message.setText(response);
-//                    message.setReplyMarkup(InlineKeyboardResponses.getTasksKeyboard());
+
                     try {
                         execute(message); // Sending our message object to user
                     } catch (TelegramApiException e) {
@@ -83,7 +88,7 @@ public class JamiumBot extends TelegramLongPollingBot {
                 }
                 //and show Task 1
                 SendMessage message = new SendMessage()
-                        .setReplyMarkup(InlineKeyboardResponses.getAttemptKeyboard(1))
+//                        .setReplyMarkup(InlineKeyboardResponses.getAttemptKeyboard(1))
                         .setChatId(chat_id)
                         .setText("Hi, Im task #1 in text");
                 try {
@@ -91,8 +96,7 @@ public class JamiumBot extends TelegramLongPollingBot {
                 } catch (TelegramApiException e) {
                     e.printStackTrace();
                 }
-            }
-            else if (call_data.equals("t_2")) {
+            } else if (call_data.equals("t_2")) {
                 UsersController.updateUserState(chat_id, State.VIEW_TASK_2);
                 String answer = "And I'm task 2! " + chat_id;
                 AnswerCallbackQuery callBack = new AnswerCallbackQuery()
@@ -108,7 +112,7 @@ public class JamiumBot extends TelegramLongPollingBot {
                 //and show Task 2
                 SendMessage message = new SendMessage()
                         .setChatId(chat_id)
-                        .setText("Hi, Im task #1 in text");
+                        .setText("Hi, Im task #2 in text");
                 try {
                     execute(message);
                 } catch (TelegramApiException e) {
@@ -116,8 +120,8 @@ public class JamiumBot extends TelegramLongPollingBot {
                 }
             }
 
-            }
         }
+    }
 
     public String getBotUsername() {
         return "testForQuizBot";
