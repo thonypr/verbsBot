@@ -33,6 +33,7 @@ public class JamiumBot extends TelegramLongPollingBot {
                 if(chat_id == 235486635) {
                     log(String.valueOf(chat_id), "admin!", "");
                     SendPhoto photo = new SendPhoto();
+                    photo.setChatId(chat_id);
                     photo.setPhoto("AgADAgAD6qcxGwnPsUgOp7-MvnQ8GecvSw0ABGvTl7ObQNPNX7UEAAEC");
                     try {
                         execute(photo); // Sending our message object to user
