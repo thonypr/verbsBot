@@ -27,9 +27,10 @@ public class JamiumBot extends TelegramLongPollingBot {
             // Set variables
             String message_text = update.getMessage().getText();
             long chat_id = update.getMessage().getChatId();
-            //process user
-            UsersController.addUser(chat_id);
+
             if (message_text.equals("/start")) {
+                //process user
+                UsersController.addUser(chat_id);
                 //show welcome screen
                 SendMessage message = new SendMessage();
                 message.setChatId(chat_id);
@@ -47,15 +48,13 @@ public class JamiumBot extends TelegramLongPollingBot {
                 //response should be 2
                 if (UsersController.getUser(chat_id).getUserState() == State.VIEW_TASK_1) {
                     //TODO: check method
-                    String response = "";
                     //show welcome screen
                     SendMessage message = new SendMessage();
-                    if (message_text.equals("2")) {
-                        response = "great";
+                    String response = Validator.task1(message_text);
+                    if (response.equals(Responses.CONGRAT_1)) {
                         UsersController.updateUserState(chat_id, State.SOLVED_TASK_1);
                         message.setReplyMarkup(InlineKeyboardResponses.getTasksKeyboard());
-                    } else {
-                        response = "nope :(";
+                        //TODO: add notification to admin
                     }
                     message.setChatId(chat_id);
                     message.setText(response);
