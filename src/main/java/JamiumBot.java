@@ -79,7 +79,7 @@ public class JamiumBot extends TelegramLongPollingBot {
                             message.setReplyMarkup(InlineKeyboardResponses.getTasksKeyboard());
                             //TODO: add notification to admin
                             try{
-                                Notificator.sendPost("jam#1 взята " + update.getMessage().getFrom().toString());
+                                Notificator.sendPost("ooo whee! jam#1 captured by " + update.getMessage().getFrom().toString());
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
@@ -111,7 +111,7 @@ public class JamiumBot extends TelegramLongPollingBot {
                             }
                             //TODO: add notification to admin
                             try{
-                                Notificator.sendPost("jam#2 взята " + update.getMessage().getFrom().toString());
+                                Notificator.sendPost("oo whee! jam#2 captured by " + update.getMessage().getFrom().toString());
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
