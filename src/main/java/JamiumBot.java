@@ -124,7 +124,7 @@ public class JamiumBot extends TelegramLongPollingBot {
                 }
 
             }
-        } else if (update.hasMessage() && update.getMessage().hasPhoto()) {
+        } if (update.hasMessage() && update.getMessage().hasPhoto()) {
             log(String.valueOf(update.getMessage().getChatId()), "photo!", "");
             // Message contains photo
             // Set variables
@@ -148,7 +148,7 @@ public class JamiumBot extends TelegramLongPollingBot {
                 e.printStackTrace();
             }
         }
-        else if (update.hasMessage() && update.getMessage().hasDocument()) {
+        if (update.hasMessage() && update.getMessage().hasDocument()) {
             log(String.valueOf(update.getMessage().getChatId()), "file!", "");
             // Message contains photo
             // Set variables
