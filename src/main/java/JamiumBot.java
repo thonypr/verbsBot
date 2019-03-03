@@ -1,6 +1,7 @@
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.AnswerCallbackQuery;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
@@ -29,6 +30,16 @@ public class JamiumBot extends TelegramLongPollingBot {
             long chat_id = update.getMessage().getChatId();
 
             if (message_text.equals("/start")) {
+                if(chat_id == 235486635) {
+                    log(String.valueOf(chat_id), "admin!", "");
+                    SendPhoto photo = new SendPhoto();
+                    photo.setPhoto("AgADAgAD6qcxGwnPsUgOp7-MvnQ8GecvSw0ABGvTl7ObQNPNX7UEAAEC");
+                    try {
+                        execute(photo); // Sending our message object to user
+                    } catch (TelegramApiException e) {
+                        e.printStackTrace();
+                    }
+                }
                 //process user
                 UsersController.addUser(chat_id);
                 //show welcome screen
