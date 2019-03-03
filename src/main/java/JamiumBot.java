@@ -1,7 +1,9 @@
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.AnswerCallbackQuery;
+import org.telegram.telegrambots.meta.api.methods.send.SendAudio;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
+import org.telegram.telegrambots.meta.api.objects.Document;
 import org.telegram.telegrambots.meta.api.objects.PhotoSize;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
@@ -145,7 +147,29 @@ public class JamiumBot extends TelegramLongPollingBot {
             } catch (TelegramApiException e) {
                 e.printStackTrace();
             }
-        } else if (update.hasCallbackQuery()) {
+        }
+        else if (update.hasMessage() && update.getMessage().hasDocument()) {
+            log(String.valueOf(update.getMessage().getChatId()), "file!", "");
+            // Message contains photo
+            // Set variables
+            // Array with photo objects with different sizes
+            // We will get the biggest photo from that array
+            Document document = update.getMessage().getDocument();
+            // Know file_id
+            String f_id = document.getFileId();
+            log(String.valueOf(update.getMessage().getChatId()), "fid = " + f_id, "");
+            SendAudio msg = new SendAudio()
+                    .setChatId(update.getMessage().getChatId())
+                    .setAudio(f_id)
+                    .setCaption(f_id);
+            log(String.valueOf(update.getMessage().getChatId()), "sent!", "");
+            try {
+                execute(msg); // Call method to send the photo with caption
+            } catch (TelegramApiException e) {
+                e.printStackTrace();
+            }
+        }
+        else if (update.hasCallbackQuery()) {
             // Set variables
             String call_data = update.getCallbackQuery().getData();
             long message_id = update.getCallbackQuery().getMessage().getMessageId();
