@@ -67,11 +67,10 @@ public class JamiumBot extends TelegramLongPollingBot {
                 Long chatId = update.getMessage().getChatId();
                 State userState = UsersController.getUser(chatId).getUserState();
                 String response = "";
-                SendMessage message = new SendMessage();
 
                 switch (userState) {
                     case VIEW_TASK_1: {
-
+                        SendMessage message = new SendMessage();
                         response = Validator.task1(update.getMessage().getText());
                         if (response.equals(Responses.CONGRAT_1)) {
                             UsersController.updateUserState(chatId, State.SOLVED_TASK_1);
@@ -91,31 +90,36 @@ public class JamiumBot extends TelegramLongPollingBot {
                         break;
                     }
                     case VIEW_TASK_2: {
-                        SendPhoto messagePhoto = new SendPhoto();
                         response = Validator.task2(update.getMessage().getText());
                         if (response.equals(Responses.CONGRAT_2)) {
+                            SendMessage message = new SendMessage();
                             UsersController.updateUserState(chatId, State.SOLVED_TASK_2);
                             message.setReplyMarkup(InlineKeyboardResponses.getTasksKeyboard());
+                            message.setChatId(chatId);
+                            message.setText(response);
+                            try {
+                                execute(message); // Sending our message object to user
+                            } catch (TelegramApiException e) {
+                                e.printStackTrace();
+                            }
                             //TODO: add notification to admin
                         } else {
                             //and show Task 2
-
+                            SendPhoto messagePhoto = new SendPhoto();
                             messagePhoto.setChatId(chat_id)
+                                    .setReplyMarkup(InlineKeyboardResponses.getTasksKeyboard())
+                                    .setChatId(chatId)
                                     .setPhoto("AgADAgADYaoxGyIE4EuR-IaPxtflYsxCXw8ABAnMjSHpJp8QBE8CAAEC")
-                                    .setCaption(Responses.TASK_2);
-                            message.setChatId(chatId);
-
+                                    .setCaption(response + "\n" + Responses.TASK_2);
                             try {
                                 execute(messagePhoto);
                             } catch (TelegramApiException e) {
                                 e.printStackTrace();
                             }
-                            message.setReplyMarkup(InlineKeyboardResponses.getTasksKeyboard());
                         }
                         break;
                     }
                 }
-                message.setText(response);
 
             }
         } else if (update.hasMessage() && update.getMessage().hasPhoto()) {
