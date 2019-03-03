@@ -8,8 +8,8 @@ public class InlineResponses {
 
     private static ArrayList<InlineKeyboardButton> tasks = new ArrayList<>(
             Arrays.asList(
-                    new InlineKeyboardButton().setText("Task 1").setCallbackData("t_1"),
-                    new InlineKeyboardButton().setText("Task 2").setCallbackData("t_2")
+                    new InlineKeyboardButton().setText("Jam #1").setCallbackData("t_1"),
+                    new InlineKeyboardButton().setText("Jam #2").setCallbackData("t_2")
             ));
 
     private static ArrayList<InlineKeyboardButton> task1 = new ArrayList<>(
