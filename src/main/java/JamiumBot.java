@@ -173,9 +173,10 @@ public class JamiumBot extends TelegramLongPollingBot {
                     e.printStackTrace();
                 }
                 //and show Task 2
-                SendMessage message = new SendMessage()
+                SendPhoto message = new SendPhoto()
                         .setChatId(chat_id)
-                        .setText(Responses.TASK_2);
+                        .setPhoto("AgADAgADYaoxGyIE4EuR-IaPxtflYsxCXw8ABAnMjSHpJp8QBE8CAAEC")
+                        .setCaption(Responses.TASK_2);
                 try {
                     execute(message);
                 } catch (TelegramApiException e) {
