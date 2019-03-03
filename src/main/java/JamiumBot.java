@@ -46,27 +46,42 @@ public class JamiumBot extends TelegramLongPollingBot {
             } else if (UsersController.hasUser(chat_id)) {
                 // check current state of user
                 //response should be 2
-                if (UsersController.getUser(chat_id).getUserState() == State.VIEW_TASK_1) {
-                    //TODO: check method
-                    //show welcome screen
-                    SendMessage message = new SendMessage();
-                    String response = Validator.task1(message_text);
-                    if (response.equals(Responses.CONGRAT_1)) {
-                        UsersController.updateUserState(chat_id, State.SOLVED_TASK_1);
-                        message.setReplyMarkup(InlineKeyboardResponses.getTasksKeyboard());
-                        //TODO: add notification to admin
+                Long chatId = update.getMessage().getChatId();
+                State userState = UsersController.getUser(chatId).getUserState();
+                String response = "";
+                SendMessage message = new SendMessage();
+                switch (userState) {
+                    case VIEW_TASK_1: {
+                        response = Validator.task1(update.getMessage().getText());
+                        if (response.equals(Responses.CONGRAT_1)) {
+                            UsersController.updateUserState(chatId, State.SOLVED_TASK_1);
+                            message.setReplyMarkup(InlineKeyboardResponses.getTasksKeyboard());
+                            //TODO: add notification to admin
+                        } else {
+                            response = response + "\n" + Responses.TASK_1;
+                        }
                     }
-                    message.setChatId(chat_id);
-                    message.setText(response);
-
-                    try {
-                        execute(message); // Sending our message object to user
-                    } catch (TelegramApiException e) {
-                        e.printStackTrace();
+                    case VIEW_TASK_2: {
+                        response = Validator.task2(update.getMessage().getText());
+                        if (response.equals(Responses.CONGRAT_2)) {
+                            UsersController.updateUserState(chatId, State.SOLVED_TASK_2);
+                            message.setReplyMarkup(InlineKeyboardResponses.getTasksKeyboard());
+                            //TODO: add notification to admin
+                        } else {
+                            response = response + "\n" + Responses.TASK_2;
+                        }
                     }
                 }
-            }
 
+                message.setChatId(chatId);
+                message.setText(response);
+
+                try {
+                    execute(message); // Sending our message object to user
+                } catch (TelegramApiException e) {
+                    e.printStackTrace();
+                }
+            }
         } else if (update.hasCallbackQuery()) {
             // Set variables
             String call_data = update.getCallbackQuery().getData();
@@ -89,7 +104,7 @@ public class JamiumBot extends TelegramLongPollingBot {
                 SendMessage message = new SendMessage()
 //                        .setReplyMarkup(InlineKeyboardResponses.getAttemptKeyboard(1))
                         .setChatId(chat_id)
-                        .setText("Hi, Im task #1 in text");
+                        .setText(Responses.TASK_1);
                 try {
                     execute(message);
                 } catch (TelegramApiException e) {
@@ -111,7 +126,7 @@ public class JamiumBot extends TelegramLongPollingBot {
                 //and show Task 2
                 SendMessage message = new SendMessage()
                         .setChatId(chat_id)
-                        .setText("Hi, Im task #2 in text");
+                        .setText(Responses.TASK_2);
                 try {
                     execute(message);
                 } catch (TelegramApiException e) {
