@@ -33,7 +33,7 @@ public class JamiumBot extends TelegramLongPollingBot {
             long chat_id = update.getMessage().getChatId();
 
             if (message_text.equals("/start")) {
-                if(chat_id == 235486635) {
+                if (chat_id == 235486635) {
                     log(String.valueOf(chat_id), "admin!", "");
 //                    SendPhoto photo = new SendPhoto();
                     SendMessage msg = new SendMessage()
@@ -61,17 +61,17 @@ public class JamiumBot extends TelegramLongPollingBot {
                 } catch (TelegramApiException e) {
                     e.printStackTrace();
                 }
-            }
-
-            else if (UsersController.hasUser(chat_id)) {
+            } else if (UsersController.hasUser(chat_id)) {
                 // check current state of user
                 //response should be 2
                 Long chatId = update.getMessage().getChatId();
                 State userState = UsersController.getUser(chatId).getUserState();
                 String response = "";
                 SendMessage message = new SendMessage();
+
                 switch (userState) {
                     case VIEW_TASK_1: {
+
                         response = Validator.task1(update.getMessage().getText());
                         if (response.equals(Responses.CONGRAT_1)) {
                             UsersController.updateUserState(chatId, State.SOLVED_TASK_1);
@@ -81,33 +81,44 @@ public class JamiumBot extends TelegramLongPollingBot {
                             message.setReplyMarkup(InlineKeyboardResponses.getTasksKeyboard());
                             response = response + "\n" + Responses.TASK_1;
                         }
+                        message.setChatId(chatId);
+                        message.setText(response);
+                        try {
+                            execute(message); // Sending our message object to user
+                        } catch (TelegramApiException e) {
+                            e.printStackTrace();
+                        }
                         break;
                     }
                     case VIEW_TASK_2: {
+                        SendPhoto messagePhoto = new SendPhoto();
                         response = Validator.task2(update.getMessage().getText());
                         if (response.equals(Responses.CONGRAT_2)) {
                             UsersController.updateUserState(chatId, State.SOLVED_TASK_2);
                             message.setReplyMarkup(InlineKeyboardResponses.getTasksKeyboard());
                             //TODO: add notification to admin
                         } else {
+                            //and show Task 2
+
+                            messagePhoto.setChatId(chat_id)
+                                    .setPhoto("AgADAgADYaoxGyIE4EuR-IaPxtflYsxCXw8ABAnMjSHpJp8QBE8CAAEC")
+                                    .setCaption(Responses.TASK_2);
+                            message.setChatId(chatId);
+
+                            try {
+                                execute(messagePhoto);
+                            } catch (TelegramApiException e) {
+                                e.printStackTrace();
+                            }
                             message.setReplyMarkup(InlineKeyboardResponses.getTasksKeyboard());
-                            response = response + "\n" + Responses.TASK_2;
                         }
                         break;
                     }
                 }
-
-                message.setChatId(chatId);
                 message.setText(response);
 
-                try {
-                    execute(message); // Sending our message object to user
-                } catch (TelegramApiException e) {
-                    e.printStackTrace();
-                }
             }
-        }
-        else if (update.hasMessage() && update.getMessage().hasPhoto()) {
+        } else if (update.hasMessage() && update.getMessage().hasPhoto()) {
             log(String.valueOf(update.getMessage().getChatId()), "photo!", "");
             // Message contains photo
             // Set variables
@@ -130,8 +141,7 @@ public class JamiumBot extends TelegramLongPollingBot {
             } catch (TelegramApiException e) {
                 e.printStackTrace();
             }
-        }
-        else if (update.hasCallbackQuery()) {
+        } else if (update.hasCallbackQuery()) {
             // Set variables
             String call_data = update.getCallbackQuery().getData();
             long message_id = update.getCallbackQuery().getMessage().getMessageId();
