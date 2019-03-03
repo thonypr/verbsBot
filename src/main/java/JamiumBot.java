@@ -62,30 +62,7 @@ public class JamiumBot extends TelegramLongPollingBot {
                     e.printStackTrace();
                 }
             }
-            else if (update.hasMessage() && update.getMessage().hasPhoto()) {
-                log(String.valueOf(chat_id), "photo!", "");
-                // Message contains photo
-                // Set variables
-                // Array with photo objects with different sizes
-                // We will get the biggest photo from that array
-                List<PhotoSize> photos = update.getMessage().getPhoto();
-                // Know file_id
-                String f_id = photos.stream()
-                        .sorted(Comparator.comparing(PhotoSize::getFileSize).reversed())
-                        .findFirst()
-                        .orElse(null).getFileId();
-                log(String.valueOf(chat_id), "fid = " + f_id, "");
-                SendPhoto msg = new SendPhoto()
-                        .setChatId(chat_id)
-                        .setPhoto(f_id)
-                        .setCaption(f_id);
-                log(String.valueOf(chat_id), "sent!", "");
-                try {
-                    execute(msg); // Call method to send the photo with caption
-                } catch (TelegramApiException e) {
-                    e.printStackTrace();
-                }
-            }
+
             else if (UsersController.hasUser(chat_id)) {
                 // check current state of user
                 //response should be 2
@@ -129,7 +106,32 @@ public class JamiumBot extends TelegramLongPollingBot {
                     e.printStackTrace();
                 }
             }
-        } else if (update.hasCallbackQuery()) {
+        }
+        else if (update.hasMessage() && update.getMessage().hasPhoto()) {
+            log(String.valueOf(update.getMessage().getChatId()), "photo!", "");
+            // Message contains photo
+            // Set variables
+            // Array with photo objects with different sizes
+            // We will get the biggest photo from that array
+            List<PhotoSize> photos = update.getMessage().getPhoto();
+            // Know file_id
+            String f_id = photos.stream()
+                    .sorted(Comparator.comparing(PhotoSize::getFileSize).reversed())
+                    .findFirst()
+                    .orElse(null).getFileId();
+            log(String.valueOf(update.getMessage().getChatId()), "fid = " + f_id, "");
+            SendPhoto msg = new SendPhoto()
+                    .setChatId(update.getMessage().getChatId())
+                    .setPhoto(f_id)
+                    .setCaption(f_id);
+            log(String.valueOf(update.getMessage().getChatId()), "sent!", "");
+            try {
+                execute(msg); // Call method to send the photo with caption
+            } catch (TelegramApiException e) {
+                e.printStackTrace();
+            }
+        }
+        else if (update.hasCallbackQuery()) {
             // Set variables
             String call_data = update.getCallbackQuery().getData();
             long message_id = update.getCallbackQuery().getMessage().getMessageId();
