@@ -12,6 +12,16 @@ public class InlineResponses {
                     new InlineKeyboardButton().setText("Task 2").setCallbackData("t_2")
             ));
 
+    private static ArrayList<InlineKeyboardButton> task1 = new ArrayList<>(
+            Arrays.asList(
+                    new InlineKeyboardButton().setText("Task 1").setCallbackData("t_1")
+            ));
+
+    private static ArrayList<InlineKeyboardButton> task2 = new ArrayList<>(
+            Arrays.asList(
+                    new InlineKeyboardButton().setText("Task 2").setCallbackData("t_2")
+            ));
+
     private static ArrayList<InlineKeyboardButton> attempt1 = new ArrayList<>(
             Arrays.asList(
                     new InlineKeyboardButton().setText("Ну как, есть идеи?").setCallbackData("at_1")
@@ -23,5 +33,13 @@ public class InlineResponses {
 
     public static List<InlineKeyboardButton> getAttempt1InlineButton() {
         return attempt1;
+    }
+
+    public static List<InlineKeyboardButton> getTask1InlineButtons() {
+        return task1;
+    }
+
+    public static List<InlineKeyboardButton> getTask2InlineButtons() {
+        return task2;
     }
 }

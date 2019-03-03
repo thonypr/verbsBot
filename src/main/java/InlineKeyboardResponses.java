@@ -23,9 +23,10 @@ public class InlineKeyboardResponses {
         return setOfOptions;
     }
 
-    public static InlineKeyboardMarkup getAttemptKeyboard(int taskId) {
+    public static InlineKeyboardMarkup getTaskKeyboard(int taskId) {
         switch (taskId) {
-            case 1: return createSetOfOptions(InlineResponses.getAttempt1InlineButton());
+            case 1: return createSetOfOptions(InlineResponses.getTask1InlineButtons());
+            case 2: return createSetOfOptions(InlineResponses.getTask2InlineButtons());
             default: return null;
         }
     }

@@ -58,6 +58,7 @@ public class JamiumBot extends TelegramLongPollingBot {
                             message.setReplyMarkup(InlineKeyboardResponses.getTasksKeyboard());
                             //TODO: add notification to admin
                         } else {
+                            message.setReplyMarkup(InlineKeyboardResponses.getTaskKeyboard(1));
                             response = response + "\n" + Responses.TASK_1;
                         }
                         break;
@@ -69,6 +70,7 @@ public class JamiumBot extends TelegramLongPollingBot {
                             message.setReplyMarkup(InlineKeyboardResponses.getTasksKeyboard());
                             //TODO: add notification to admin
                         } else {
+                            message.setReplyMarkup(InlineKeyboardResponses.getTaskKeyboard(2));
                             response = response + "\n" + Responses.TASK_2;
                         }
                         break;
