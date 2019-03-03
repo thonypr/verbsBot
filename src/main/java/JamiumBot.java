@@ -60,6 +60,7 @@ public class JamiumBot extends TelegramLongPollingBot {
                         } else {
                             response = response + "\n" + Responses.TASK_1;
                         }
+                        break;
                     }
                     case VIEW_TASK_2: {
                         response = Validator.task2(update.getMessage().getText());
@@ -70,6 +71,7 @@ public class JamiumBot extends TelegramLongPollingBot {
                         } else {
                             response = response + "\n" + Responses.TASK_2;
                         }
+                        break;
                     }
                 }
 
