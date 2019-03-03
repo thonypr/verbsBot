@@ -17,6 +17,7 @@ public class Main {
         try {
 //            botsApi.registerBot(new JamiumBot());
             botsApi.registerBot((LongPollingBot) new JamiumBot());
+            botsApi.registerBot((LongPollingBot) new Notificator());
         } catch (TelegramApiException e) {
             e.printStackTrace();
         }

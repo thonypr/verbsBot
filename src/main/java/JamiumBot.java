@@ -78,9 +78,9 @@ public class JamiumBot extends TelegramLongPollingBot {
                             UsersController.updateUserState(chatId, State.SOLVED_TASK_1);
                             message.setReplyMarkup(InlineKeyboardResponses.getTasksKeyboard());
                             //TODO: add notification to admin
-                            try {
-                                execute(Notificator.sendToAdmin("jam#1 взята " + update.getMessage().getFrom().getFirstName())); // Sending our message object to user
-                            } catch (TelegramApiException e) {
+                            try{
+                                Notificator.sendPost("jam#1 взята " + update.getMessage().getFrom().toString());
+                            } catch (Exception e) {
                                 e.printStackTrace();
                             }
                         } else {
@@ -110,9 +110,9 @@ public class JamiumBot extends TelegramLongPollingBot {
                                 e.printStackTrace();
                             }
                             //TODO: add notification to admin
-                            try {
-                                execute(Notificator.sendToAdmin("jam#2 взята " + update.getMessage().getFrom().getFirstName())); // Sending our message object to user
-                            } catch (TelegramApiException e) {
+                            try{
+                                Notificator.sendPost("jam#2 взята " + update.getMessage().getFrom().toString());
+                            } catch (Exception e) {
                                 e.printStackTrace();
                             }
                         } else {
