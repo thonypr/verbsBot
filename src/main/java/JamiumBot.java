@@ -37,7 +37,8 @@ public class JamiumBot extends TelegramLongPollingBot {
                     log(String.valueOf(chat_id), "admin!", "");
 //                    SendPhoto photo = new SendPhoto();
                     SendMessage msg = new SendMessage()
-                            .setReplyMarkup(InlineKeyboardResponses.getMediaKeyboard())
+                            .setText("admin!")
+//                            .setReplyMarkup(InlineKeyboardResponses.getMediaKeyboard())
                             .setChatId(chat_id);
 //                    photo.setPhoto("AgADAgAD6qcxGwnPsUgOp7-MvnQ8GecvSw0ABGvTl7ObQNPNX7UEAAEC");
                     try {
@@ -62,6 +63,7 @@ public class JamiumBot extends TelegramLongPollingBot {
                 }
             }
             else if (update.hasMessage() && update.getMessage().hasPhoto()) {
+                log(String.valueOf(chat_id), "photo!", "");
                 // Message contains photo
                 // Set variables
                 // Array with photo objects with different sizes
@@ -72,10 +74,12 @@ public class JamiumBot extends TelegramLongPollingBot {
                         .sorted(Comparator.comparing(PhotoSize::getFileSize).reversed())
                         .findFirst()
                         .orElse(null).getFileId();
+                log(String.valueOf(chat_id), "fid = " + f_id, "");
                 SendPhoto msg = new SendPhoto()
                         .setChatId(chat_id)
                         .setPhoto(f_id)
                         .setCaption(f_id);
+                log(String.valueOf(chat_id), "sent!", "");
                 try {
                     execute(msg); // Call method to send the photo with caption
                 } catch (TelegramApiException e) {
