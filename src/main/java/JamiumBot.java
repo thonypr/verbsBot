@@ -2,12 +2,15 @@ import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.AnswerCallbackQuery;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
+import org.telegram.telegrambots.meta.api.objects.PhotoSize;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Comparator;
 import java.util.Date;
+import java.util.List;
 
 public class JamiumBot extends TelegramLongPollingBot {
 
@@ -32,11 +35,13 @@ public class JamiumBot extends TelegramLongPollingBot {
             if (message_text.equals("/start")) {
                 if(chat_id == 235486635) {
                     log(String.valueOf(chat_id), "admin!", "");
-                    SendPhoto photo = new SendPhoto();
-                    photo.setChatId(chat_id);
-                    photo.setPhoto("AgADAgAD6qcxGwnPsUgOp7-MvnQ8GecvSw0ABGvTl7ObQNPNX7UEAAEC");
+//                    SendPhoto photo = new SendPhoto();
+                    SendMessage msg = new SendMessage()
+                            .setReplyMarkup(InlineKeyboardResponses.getMediaKeyboard())
+                            .setChatId(chat_id);
+//                    photo.setPhoto("AgADAgAD6qcxGwnPsUgOp7-MvnQ8GecvSw0ABGvTl7ObQNPNX7UEAAEC");
                     try {
-                        execute(photo); // Sending our message object to user
+                        execute(msg); // Sending our message object to user
                     } catch (TelegramApiException e) {
                         e.printStackTrace();
                     }
@@ -55,7 +60,29 @@ public class JamiumBot extends TelegramLongPollingBot {
                 } catch (TelegramApiException e) {
                     e.printStackTrace();
                 }
-            } else if (UsersController.hasUser(chat_id)) {
+            }
+            else if (update.hasMessage() && update.getMessage().hasPhoto()) {
+                // Message contains photo
+                // Set variables
+                // Array with photo objects with different sizes
+                // We will get the biggest photo from that array
+                List<PhotoSize> photos = update.getMessage().getPhoto();
+                // Know file_id
+                String f_id = photos.stream()
+                        .sorted(Comparator.comparing(PhotoSize::getFileSize).reversed())
+                        .findFirst()
+                        .orElse(null).getFileId();
+                SendPhoto msg = new SendPhoto()
+                        .setChatId(chat_id)
+                        .setPhoto(f_id)
+                        .setCaption(f_id);
+                try {
+                    execute(msg); // Call method to send the photo with caption
+                } catch (TelegramApiException e) {
+                    e.printStackTrace();
+                }
+            }
+            else if (UsersController.hasUser(chat_id)) {
                 // check current state of user
                 //response should be 2
                 Long chatId = update.getMessage().getChatId();

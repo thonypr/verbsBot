@@ -23,6 +23,11 @@ public class InlineKeyboardResponses {
         return setOfOptions;
     }
 
+    public static InlineKeyboardMarkup getMediaKeyboard() {
+        InlineKeyboardMarkup setOfOptions = createSetOfOptions(InlineResponses.getMediaButtons());
+        return setOfOptions;
+    }
+
     public static InlineKeyboardMarkup getTaskKeyboard(int taskId) {
         switch (taskId) {
             case 1: return createSetOfOptions(InlineResponses.getTask1InlineButtons());
