@@ -8,44 +8,10 @@ import java.net.URL;
 
 public class Notificator {
 
-    private static String bot = "770195977:AAHfN-KKwCNCT7VVGCDSRY9c0jCNukgUXYA";
-    private static String chat = "235486635";
-
-//    public static String signUser(User user) {
-//        user.toString()
-//        String userName, firstname, lastName;
-//        try{
-//            userName = user.getUserName();
-//        }
-//        catch (Exception e) {
-//            userName = null;
-//        }
-//        try{
-//            firstname = user.getFirstName();
-//        }
-//        catch (Exception e) {
-//            firstname = null;
-//        }
-//        try{
-//            lastName = user.getLastName();
-//        }
-//        catch (Exception e) {
-//            lastName = null;
-//        }
-//        if(userName == null && firstname == null && lastName == null) {
-//            return "o_O " + user.getId();
-//        }
-//        else if (userName == null && firstname == null) {
-//            return lastName;
-//        }
-//        else if (userName == null && lastName == null) {
-//            return firstname;
-//        }
-//    }
+    static String bot = System.getenv("TG_NOTI_BOT");
+    static long chat_id = Long.valueOf(System.getenv("TG_ADMIN_ID"));
 
     public static void sendToAdmin(String text) {
-        String bot = System.getenv("TG_NOTI_BOT");
-        long chat_id = Long.valueOf(System.getenv("TG_ADMIN_ID"));
         SendMessage msg = new SendMessage()
                 .setChatId(chat_id)
                 .setText(text);
@@ -63,7 +29,7 @@ public class Notificator {
 //        con.setRequestProperty("User-Agent", USER_AGENT);
 //        con.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
 
-        String urlParameters = "chat_id=:CHAT&text=:TEXT".replace(":CHAT", chat).replace(":TEXT", text);
+        String urlParameters = "chat_id=:CHAT&text=:TEXT".replace(":CHAT", String.valueOf(chat_id)).replace(":TEXT", text);
 
 
         try {
