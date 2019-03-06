@@ -51,6 +51,7 @@ public class JamiumBot extends TelegramLongPollingBot {
                 }
                 //process user
                 UsersController.addUser(chat_id);
+                DBConnection.addUser(chat_id, State.WELCOME);
                 //show welcome screen
                 SendMessage message = new SendMessage();
                 message.setChatId(chat_id);
