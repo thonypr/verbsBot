@@ -3,7 +3,6 @@ import org.telegram.telegrambots.meta.api.methods.AnswerCallbackQuery;
 import org.telegram.telegrambots.meta.api.methods.send.SendAudio;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
-import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
 import org.telegram.telegrambots.meta.api.objects.Audio;
 import org.telegram.telegrambots.meta.api.objects.PhotoSize;
 import org.telegram.telegrambots.meta.api.objects.Update;
@@ -35,22 +34,24 @@ public class JamiumBot extends TelegramLongPollingBot {
             String message_text = update.getMessage().getText();
             long chat_id = update.getMessage().getChatId();
 
-            if (message_text.equals("/start")) {
-                if (chat_id == 235486635) {
-                    log(String.valueOf(chat_id), "admin!", "");
+            if (chat_id == 235486635 && message_text.equals("shikaka")) {
+                log(String.valueOf(chat_id), "admin!", "");
 //                    SendPhoto photo = new SendPhoto();
-                    EditMessageText msg = new EditMessageText()
-                            .setText("admin!")
-                            .setMessageId(update.getMessage().getMessageId())
-                            .setReplyMarkup(InlineKeyboardResponses.getShowUsersKeyboard())
-                            .setChatId(chat_id);
+                SendMessage msg = new SendMessage()
+                        .setText("admin!")
+//                            .setMessageId(update.getMessage().getMessageId())
+                        .setReplyMarkup(InlineKeyboardResponses.getShowUsersKeyboard())
+                        .setChatId(chat_id);
 //                    photo.setPhoto("AgADAgAD6qcxGwnPsUgOp7-MvnQ8GecvSw0ABGvTl7ObQNPNX7UEAAEC");
-                    try {
-                        execute(msg); // Sending our message object to user
-                    } catch (TelegramApiException e) {
-                        e.printStackTrace();
-                    }
+                try {
+                    execute(msg); // Sending our message object to user
+                } catch (TelegramApiException e) {
+                    e.printStackTrace();
                 }
+            }
+
+            else if (message_text.equals("/start") && !UsersController.hasUser(chat_id)) {
+
                 //process user
                 UsersController.addUser(chat_id);
                 DBConnection.addUser(chat_id, State.WELCOME);
