@@ -13,7 +13,11 @@ public class UsersController {
     }
 
     public static String getUsers() {
-        return users.toString();
+        StringBuilder result = new StringBuilder();
+        for(User user : users.values()) {
+            result.append("user = ").append(user.getUserId()).append("; state = ").append(user.getUserState()).append("\n");
+        }
+        return result.toString();
     }
 
     public static User getUser(Long userId) {
