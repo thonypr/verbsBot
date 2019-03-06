@@ -1,5 +1,3 @@
-import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
-
 import javax.net.ssl.HttpsURLConnection;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -12,9 +10,11 @@ public class Notificator {
     static long chat_id = Long.valueOf(System.getenv("TG_ADMIN_ID"));
 
     public static void sendToAdmin(String text) {
-        SendMessage msg = new SendMessage()
-                .setChatId(chat_id)
-                .setText(text);
+        try {
+            sendPost(text);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public static void sendPost(String text) throws Exception {

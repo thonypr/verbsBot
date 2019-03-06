@@ -29,7 +29,7 @@ public class InlineKeyboardResponses {
     }
 
     public static InlineKeyboardMarkup getShowUsersKeyboard() {
-        InlineKeyboardMarkup setOfOptions = createSetOfOptions(InlineResponses.getMediaButtons());
+        InlineKeyboardMarkup setOfOptions = createSetOfOptions(InlineResponses.getAdminButtons());
         return setOfOptions;
     }
 
