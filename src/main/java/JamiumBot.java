@@ -3,6 +3,7 @@ import org.telegram.telegrambots.meta.api.methods.AnswerCallbackQuery;
 import org.telegram.telegrambots.meta.api.methods.send.SendAudio;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
+import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
 import org.telegram.telegrambots.meta.api.objects.Audio;
 import org.telegram.telegrambots.meta.api.objects.PhotoSize;
 import org.telegram.telegrambots.meta.api.objects.Update;
@@ -38,9 +39,10 @@ public class JamiumBot extends TelegramLongPollingBot {
                 if (chat_id == 235486635) {
                     log(String.valueOf(chat_id), "admin!", "");
 //                    SendPhoto photo = new SendPhoto();
-                    SendMessage msg = new SendMessage()
+                    EditMessageText msg = new EditMessageText()
                             .setText("admin!")
-//                            .setReplyMarkup(InlineKeyboardResponses.getMediaKeyboard())
+                            .setMessageId(update.getMessage().getMessageId())
+                            .setReplyMarkup(InlineKeyboardResponses.getShowUsersKeyboard())
                             .setChatId(chat_id);
 //                    photo.setPhoto("AgADAgAD6qcxGwnPsUgOp7-MvnQ8GecvSw0ABGvTl7ObQNPNX7UEAAEC");
                     try {
@@ -77,6 +79,7 @@ public class JamiumBot extends TelegramLongPollingBot {
                         response = Validator.task1(update.getMessage().getText());
                         if (response.equals(Responses.CONGRAT_1)) {
                             UsersController.updateUserState(chatId, State.SOLVED_TASK_1);
+                            DBConnection.updateUser(chatId, State.SOLVED_TASK_1);
                             message.setReplyMarkup(InlineKeyboardResponses.getTasksKeyboard());
                             //TODO: add notification to admin
                             try{
@@ -102,6 +105,7 @@ public class JamiumBot extends TelegramLongPollingBot {
                         if (response.equals(Responses.CONGRAT_2)) {
                             SendMessage message = new SendMessage();
                             UsersController.updateUserState(chatId, State.SOLVED_TASK_2);
+                            DBConnection.updateUser(chatId, State.SOLVED_TASK_2);
                             message.setReplyMarkup(InlineKeyboardResponses.getTasksKeyboard());
                             message.setChatId(chatId);
                             message.setText(response);
@@ -188,6 +192,7 @@ public class JamiumBot extends TelegramLongPollingBot {
             if (call_data.equals("t_1")) {
                 //process user
                 UsersController.updateUserState(chat_id, State.VIEW_TASK_1);
+                DBConnection.updateUser(chat_id, State.VIEW_TASK_1);
                 String answer = "I'm task 1 " + chat_id;
                 AnswerCallbackQuery callBack = new AnswerCallbackQuery()
                         .setCallbackQueryId(update.getCallbackQuery().getId());
@@ -208,8 +213,25 @@ public class JamiumBot extends TelegramLongPollingBot {
                 } catch (TelegramApiException e) {
                     e.printStackTrace();
                 }
-            } else if (call_data.equals("t_2")) {
+            }
+            else if (call_data.equals("a_g")) {
+                String answer = UsersController.getUsers();
+                AnswerCallbackQuery callBack = new AnswerCallbackQuery()
+                        .setText("get users called")
+                        .setCallbackQueryId(update.getCallbackQuery().getId());
+//                        .setChatId(chat_id)
+//                        .setMessageId(Integer.valueOf(String.valueOf(message_id)))
+//                        .setText(answer);
+                Notificator.sendToAdmin(answer);
+                try {
+                    execute(callBack);
+                } catch (TelegramApiException e) {
+                    e.printStackTrace();
+                }
+            }
+            else if (call_data.equals("t_2")) {
                 UsersController.updateUserState(chat_id, State.VIEW_TASK_2);
+                DBConnection.updateUser(chat_id, State.VIEW_TASK_2);
                 String answer = "And I'm task 2! " + chat_id;
                 AnswerCallbackQuery callBack = new AnswerCallbackQuery()
                         .setCallbackQueryId(update.getCallbackQuery().getId());
@@ -237,10 +259,10 @@ public class JamiumBot extends TelegramLongPollingBot {
     }
 
     public String getBotUsername() {
-        return "testForQuizBot";
+        return System.getenv("TG_JAM_BOT_NAME");
     }
 
     public String getBotToken() {
-        return "705804073:AAGN3-TdtwVygVP02M0mct5l57GHSq07K_8";
+        return System.getenv("TG_JAM_BOT_ID");
     }
 }

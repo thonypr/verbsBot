@@ -1,18 +1,23 @@
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 public class UsersController {
 
     private static HashMap<Long, User> users = new HashMap<>();
-    private static List<Long> usersIds = new ArrayList<>();
 
-    public static boolean hasUser(User user) {
-        return usersIds.contains(user.getUserId());
+    public static void setUsers(HashMap<Long, User> dbUsers) {
+        HashMap<Long, User> tmp = new HashMap<>();
+        tmp.putAll(users);
+        tmp.putAll(dbUsers);
+        users = tmp;
+        Notificator.sendToAdmin("setUsers - successfully loaded " + users.values().size() + " users!");
+    }
+
+    public static String getUsers() {
+        return users.toString();
     }
 
     public static User getUser(Long userId) {
-        if(usersIds.contains(userId)) {
+        if(users.containsKey(userId)) {
             return users.get(userId);
         }
         //TODO: npe
@@ -20,7 +25,7 @@ public class UsersController {
     }
 
     public static boolean hasUser(Long userId) {
-        return usersIds.contains(userId);
+        return users.containsKey(userId);
     }
 
     public static void addUser(Long userId) {
@@ -31,13 +36,8 @@ public class UsersController {
         else {
             User newUser = new User(userId, State.WELCOME);
             users.put(userId, newUser);
-            usersIds.add(userId);
             JamiumBot.log(userId.toString(), "Collected!", "");
         }
-    }
-
-    public static String getUsersIds() {
-        return usersIds.toString();
     }
 
     public static void updateUserState(Long userId, State state) {

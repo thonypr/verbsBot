@@ -44,10 +44,10 @@ public class Notificator {
 //    }
 
     public static void sendToAdmin(String text) {
-        String bot = "770195977:AAHfN-KKwCNCT7VVGCDSRY9c0jCNukgUXYA";
-        long chatId = 235486635;
+        String bot = System.getenv("TG_NOTI_BOT");
+        long chat_id = Long.valueOf(System.getenv("TG_ADMIN_ID"));
         SendMessage msg = new SendMessage()
-                .setChatId(chatId)
+                .setChatId(chat_id)
                 .setText(text);
     }
 

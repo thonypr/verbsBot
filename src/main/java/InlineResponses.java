@@ -34,12 +34,21 @@ public class InlineResponses {
                     new InlineKeyboardButton().setText("Ну как, есть идеи?").setCallbackData("at_1")
             ));
 
+    private static ArrayList<InlineKeyboardButton> admins = new ArrayList<>(
+            Arrays.asList(
+                    new InlineKeyboardButton().setText("Users").setCallbackData("a_g")
+            ));
+
     public static List<InlineKeyboardButton> getTasksInlineButtons() {
         return tasks;
     }
 
     public static List<InlineKeyboardButton> getMediaButtons() {
         return medias;
+    }
+
+    public static List<InlineKeyboardButton> getAdminButtons() {
+        return admins;
     }
 
     public static List<InlineKeyboardButton> getAttempt1InlineButton() {
