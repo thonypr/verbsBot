@@ -45,7 +45,7 @@ public class Validator {
 
         String correctAnswer = System.getenv("TG_JAM_2_ANSWER");
         List<String> closeAnswers = new ArrayList<>();
-        closeAnswers.add("TG_JAM_2_CLOSE");
+        closeAnswers.add(System.getenv("TG_JAM_2_CLOSE"));
 
         if(answer.equals(correctAnswer)) {
             result = Responses.CONGRAT_2;
