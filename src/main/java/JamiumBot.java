@@ -123,14 +123,14 @@ public class JamiumBot extends TelegramLongPollingBot {
                             }
                         } else {
                             //and show Task 2
-                            SendPhoto messagePhoto = new SendPhoto();
-                            messagePhoto.setChatId(chat_id)
+                            SendAudio messageAudio = new SendAudio();
+                            messageAudio.setChatId(chat_id)
                                     .setReplyMarkup(InlineKeyboardResponses.getTasksKeyboard())
                                     .setChatId(chatId)
-                                    .setPhoto("AgADAgADYaoxGyIE4EuR-IaPxtflYsxCXw8ABAnMjSHpJp8QBE8CAAEC")
+                                    .setAudio("AgADAgADYaoxGyIE4EuR-IaPxtflYsxCXw8ABAnMjSHpJp8QBE8CAAEC")
                                     .setCaption(response + "\n" + Responses.TASK_2);
                             try {
-                                execute(messagePhoto);
+                                execute(messageAudio);
                             } catch (TelegramApiException e) {
                                 e.printStackTrace();
                             }
@@ -245,9 +245,9 @@ public class JamiumBot extends TelegramLongPollingBot {
                     e.printStackTrace();
                 }
                 //and show Task 2
-                SendPhoto message = new SendPhoto()
+                SendAudio message = new SendAudio()
                         .setChatId(chat_id)
-                        .setPhoto("AgADAgADYaoxGyIE4EuR-IaPxtflYsxCXw8ABAnMjSHpJp8QBE8CAAEC")
+                        .setAudio("AgADAgADYaoxGyIE4EuR-IaPxtflYsxCXw8ABAnMjSHpJp8QBE8CAAEC")
                         .setCaption(Responses.TASK_2);
                 try {
                     execute(message);
