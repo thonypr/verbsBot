@@ -127,7 +127,7 @@ public class JamiumBot extends TelegramLongPollingBot {
                             messageAudio.setChatId(chat_id)
                                     .setReplyMarkup(InlineKeyboardResponses.getTasksKeyboard())
                                     .setChatId(chatId)
-                                    .setAudio("AgADAgADYaoxGyIE4EuR-IaPxtflYsxCXw8ABAnMjSHpJp8QBE8CAAEC")
+                                    .setAudio("CQADAgADOQMAAnrMCUlX7GhbNbE7ZgI")
                                     .setCaption(response + "\n" + Responses.TASK_2);
                             try {
                                 execute(messageAudio);
@@ -247,7 +247,7 @@ public class JamiumBot extends TelegramLongPollingBot {
                 //and show Task 2
                 SendAudio message = new SendAudio()
                         .setChatId(chat_id)
-                        .setAudio("AgADAgADYaoxGyIE4EuR-IaPxtflYsxCXw8ABAnMjSHpJp8QBE8CAAEC")
+                        .setAudio("CQADAgADOQMAAnrMCUlX7GhbNbE7ZgI")
                         .setCaption(Responses.TASK_2);
                 try {
                     execute(message);
