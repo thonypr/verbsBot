@@ -1,8 +1,10 @@
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardButton;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class InlineKeyboardResponses {
@@ -42,19 +44,19 @@ public class InlineKeyboardResponses {
         }
     }
 
-    public static InlineKeyboardMarkup getKeyboardFromTasks(List <TaskDB> tasks) {
-        InlineKeyboardMarkup markupInline = new InlineKeyboardMarkup();
-        List<List<InlineKeyboardButton>> rowsInline = new ArrayList<>();
-        List<InlineKeyboardButton> rowInline = new ArrayList<>();
+    public static ReplyKeyboardMarkup getKeyboardFromTasks(List <TaskDB> tasks) {
+
+        ReplyKeyboardMarkup markup = new ReplyKeyboardMarkup();
+        List<KeyboardRow> rowsInline = new ArrayList<>();
         // Collect options
-        List<InlineKeyboardButton> options = new ArrayList<>();
+        KeyboardRow options = new KeyboardRow();
         for(TaskDB task : tasks) {
-            InlineKeyboardButton btn = new InlineKeyboardButton().setText(task.getName());
+            KeyboardButton btn = new KeyboardButton().setText(task.getName());
             options.add(btn);
         }
         rowsInline.add(options);
         // Add it to the message
-        markupInline.setKeyboard(rowsInline);
-        return markupInline;
+        markup.setKeyboard(rowsInline);
+        return markup;
     }
 }
