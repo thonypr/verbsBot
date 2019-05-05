@@ -1,6 +1,8 @@
 import java.net.URISyntaxException;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class DBConnection {
 
@@ -70,5 +72,28 @@ public class DBConnection {
             e.printStackTrace();
         }
         return users;
+    }
+
+    public static List<TaskDB> getTasks() {
+        List<TaskDB> tasks = new ArrayList<>();
+        PreparedStatement stm = null;
+        try {
+            stm = getConnection().prepareStatement("SELECT * FROM task;");
+            ResultSet resultSet = stm.executeQuery();
+            // process the results
+            while (resultSet.next()) {
+                TaskDB task = new TaskDB(resultSet.getInt(1), resultSet.getString(2),
+                        resultSet.getBoolean(3));
+                tasks.add(task);
+            }
+            resultSet.close();
+            stm.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (URISyntaxException e) {
+            Notificator.sendToAdmin("getTasks - ERROR: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return tasks;
     }
 }
