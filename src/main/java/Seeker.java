@@ -1,5 +1,9 @@
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -11,8 +15,11 @@ public class Seeker {
     static List<Verb> verbs = new ArrayList<>();
 
 
-    public static void readFile() throws IOException {
-        FileReader fr = new FileReader("resources/vocabulary.txt");
+    public static void readFile() throws IOException, URISyntaxException {
+        URL res = Seeker.class.getClassLoader().getResource("vocabulary.txt");
+        File file = Paths.get(res.toURI()).toFile();
+        String absolutePath = file.getAbsolutePath();
+        FileReader fr = new FileReader(absolutePath);
         Scanner scan = new Scanner(fr);
 
         while (scan.hasNextLine()) {

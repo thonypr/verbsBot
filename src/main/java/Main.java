@@ -4,10 +4,11 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.meta.generics.LongPollingBot;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 
 public class Main {
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, URISyntaxException {
 
         // TODO Initialize Api Context
         ApiContextInitializer.init();
