@@ -3,11 +3,11 @@ import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.meta.generics.LongPollingBot;
 
-import java.util.HashMap;
+import java.io.IOException;
 
 public class Main {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
 
         // TODO Initialize Api Context
         ApiContextInitializer.init();
@@ -19,9 +19,9 @@ public class Main {
         try {
 //            botsApi.registerBot(new JamiumBot());
             // get DB info about users states
-            HashMap<Long, User> users = DBConnection.getUsers();
-            UsersController.setUsers(users);
-            botsApi.registerBot((LongPollingBot) new JamiumBot());
+            Seeker.readFile();
+            Seeker.parseFileInfo();
+            botsApi.registerBot((LongPollingBot) new VerbsBot());
 //            botsApi.registerBot((LongPollingBot) new Notificator());
         } catch (TelegramApiException e) {
             e.printStackTrace();
